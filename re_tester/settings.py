@@ -1,4 +1,4 @@
-""" TODO: Document """
+""" Global Settings """
 import json
 import os.path
 import sys
@@ -8,7 +8,7 @@ from tkinter.font import Font
 
 @dataclasses.dataclass
 class Settings:
-    """ TODO: Document """
+    """ Color scheme and topmost behavior """
     topmost: bool = True
     font_family_name: str = 'Monospace'
     font_size: int = 10
@@ -60,23 +60,22 @@ class Settings:
 
     @staticmethod
     def read_from_file():
-        """ TODO: Document """
+        """
+        Attempt to load Settings from settings.json, create the file and folder if they do not exist, use default
+        Settings values if the JSON is broken
+        """
         path = sys.path[0] + '/resources'
+        s = Settings()
         if os.path.exists(path):
             try:
                 with open(f'{path}/settings.json', 'r', encoding='utf-8') as r_file:
                     s = Settings(**json.loads(r_file.read()))
             except FileNotFoundError:
-                s = Settings()
                 json.dump(s.to_json(), open(f'{path}/settings.json', 'w'), indent=4)
             except json.decoder.JSONDecodeError:
                 print("[!] Warning, broken JSON, using default values.")
-                s = Settings()
-            finally:
-                return s
         else:
             os.makedirs(path)
-            s = Settings()
             json.dump(s.to_json(), open(f'{path}/settings.json', 'w'), indent=4)
 
         return s
