@@ -1,6 +1,6 @@
 """ Application's frames """
 from re import Match
-from tkinter import ttk, Frame, Label, Scrollbar, FLAT, LEFT, RIGHT, Y, BOTH, END, NONE
+from tkinter import ttk, Entry, Frame, Label, Scrollbar, FLAT, LEFT, RIGHT, Y, BOTH, END, NONE, StringVar
 from re_tester.widgets import CustomText, LeftLineNumbersBar
 from re_tester.settings import SETTINGS
 
@@ -15,10 +15,9 @@ class TopBarFrame(Frame):
                                  font=SETTINGS.font,
                                  background=SETTINGS.topbar_frame_background_color,
                                  foreground=SETTINGS.default_foreground)
-        self.regex_text_box = CustomText(self)
+        self.regex_string = StringVar()
+        self.regex_text_box = Entry(self, textvariable=self.regex_string)
         self.regex_text_box.config(
-            height=1,
-            undo=True,
             relief=FLAT,
             font=SETTINGS.font,
             foreground=SETTINGS.topbar_frame_foreground_color,
@@ -32,7 +31,7 @@ class TopBarFrame(Frame):
 
     def get_regex_pattern(self) -> str:
         """ Get the regex pattern in self.regex_text_box """
-        return self.regex_text_box.get_all_lines()[0]
+        return self.regex_text_box.get()
 
 
 class TestBoxFrame(Frame):

@@ -46,6 +46,7 @@ class App(Tk):
         self.test_box_frame.test_textbox.bind("<<TextModified>>", lambda x: self.on_text_mod())
         self.test_box_frame.test_textbox.bind("<KP_Enter>", lambda x: self.test_box_frame.test_textbox.insert(
             INSERT, '\n'))
+        self.top_bar_frame.regex_string.trace_add("write", lambda x, y, z: self.on_text_mod())  # Ugly!
 
     def on_text_mod(self) -> None:
         """ When text is modified in either textbox. """
